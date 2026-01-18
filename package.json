@@ -41,11 +41,11 @@
   "license": "MIT",
   "homepage": "https://bibike.fivorana.com",
   "bugs": {
-    "url": "https://github.com/bibike/erp-sdk/issues"
+    "url": "https://github.com/nrep/bibike-erp-sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bibike/erp-sdk"
+    "url": "https://github.com/nrep/bibike-erp-sdk"
   },
   "publishConfig": {
     "access": "public"
