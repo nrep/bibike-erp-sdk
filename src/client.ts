@@ -90,8 +90,20 @@ export class BibikeClient {
       two_factor_code: credentials.two_factor_code,
     });
     
+    // The API can return data in two formats:
+    // 1. Wrapped: { success, data: { token, user } }
+    // 2. Direct: { success, token, user }
+    const rawResponse = response as unknown as { 
+      success?: boolean;
+      requires_2fa?: boolean; 
+      temp_token?: string; 
+      methods?: ('totp' | 'sms' | 'email')[];
+      token?: string;
+      user?: AuthResponse['user'];
+      data?: { token?: string; user?: AuthResponse['user'] };
+    };
+    
     // Check if 2FA is required
-    const rawResponse = response as unknown as LoginResponse;
     if (rawResponse.requires_2fa) {
       return {
         success: false,
@@ -101,13 +113,17 @@ export class BibikeClient {
       };
     }
     
-    if (response.data?.token) {
-      this.token = response.data.token;
+    // Get token from either format
+    const token = rawResponse.data?.token || rawResponse.token;
+    const user = rawResponse.data?.user || rawResponse.user;
+    
+    if (token) {
+      this.token = token;
     }
     
     return {
       success: true,
-      data: response.data,
+      data: { token, user } as AuthResponse,
     };
   }
 
@@ -117,13 +133,23 @@ export class BibikeClient {
   async verify2FA(input: TwoFactorVerifyInput): Promise<LoginResponse> {
     const response = await this.request<AuthResponse>('auth', 'verify_2fa', 'POST', input);
     
-    if (response.data?.token) {
-      this.token = response.data.token;
+    // Handle both response formats
+    const rawResponse = response as unknown as { 
+      token?: string;
+      user?: AuthResponse['user'];
+      data?: { token?: string; user?: AuthResponse['user'] };
+    };
+    
+    const token = rawResponse.data?.token || rawResponse.token;
+    const user = rawResponse.data?.user || rawResponse.user;
+    
+    if (token) {
+      this.token = token;
     }
     
     return {
       success: true,
-      data: response.data,
+      data: { token, user } as AuthResponse,
     };
   }
 
