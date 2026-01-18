@@ -575,16 +575,40 @@ export class BibikeClient {
   // ============ Locations ============
 
   readonly locations = {
+    /**
+     * @deprecated Use `locations.all()` instead. This method requires legacy
+     * `warehouses.view` permission which may not be available to all users.
+     * The unified locations API uses location scoping for access control.
+     */
     warehouses: async () => {
       return this.request<Warehouse[]>('warehouses', 'list');
     },
 
+    /**
+     * @deprecated Use `locations.all()` instead. This method requires legacy
+     * `shops.view` permission which may not be available to all users.
+     * The unified locations API uses location scoping for access control.
+     */
     shops: async () => {
       return this.request<Shop[]>('shops', 'list');
     },
 
+    /**
+     * Get all locations using the unified locations API.
+     * Uses location scoping for access control (no legacy permissions required).
+     * @param params.type_id - Filter by location type ID
+     * @param params.capability - Filter by capability: 'sellable', 'receivable', 'stockable', 'transferable'
+     */
     all: async (params?: { type_id?: number; capability?: string }) => {
       return this.request<Location[]>('locations', 'list', 'GET', undefined, params);
+    },
+
+    /**
+     * Get locations by capability (e.g., sellable locations for POS)
+     * @param capability - One of: 'sellable', 'receivable', 'stockable', 'transferable'
+     */
+    byCapability: async (capability: 'sellable' | 'receivable' | 'stockable' | 'transferable') => {
+      return this.request<Location[]>('locations', 'by_capability', 'GET', undefined, { capability });
     },
   };
 
