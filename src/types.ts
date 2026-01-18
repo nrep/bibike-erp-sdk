@@ -86,6 +86,13 @@ export interface User {
 
 // ============ Product Types ============
 
+export interface ProductImage {
+  id: number;
+  url: string;
+  is_primary: boolean;
+  display_order: number;
+}
+
 export interface Product {
   id: number;
   organization_id: number;
@@ -100,9 +107,12 @@ export interface Product {
   unit_price: number;
   cost_price?: number;
   reorder_level?: number;
+  total_stock?: number;
   is_active: boolean;
+  images?: ProductImage[];
   created_at: string;
   updated_at?: string;
+  deleted_at?: string | null;
 }
 
 export interface CreateProductInput {

@@ -18,6 +18,7 @@ export type {
   TwoFactorVerifyInput,
   User,
   Product,
+  ProductImage,
   CreateProductInput,
   UpdateProductInput,
   InventoryItem,
