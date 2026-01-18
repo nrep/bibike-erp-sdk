@@ -53,6 +53,7 @@ import type {
   Warehouse,
   Shop,
   Location,
+  LocationInventoryItem,
 } from './types';
 
 export interface BibikeConfig {
@@ -609,6 +610,15 @@ export class BibikeClient {
      */
     byCapability: async (capability: 'sellable' | 'receivable' | 'stockable' | 'transferable') => {
       return this.request<Location[]>('locations', 'by_capability', 'GET', undefined, { capability });
+    },
+
+    /**
+     * Get inventory for a specific location
+     * Returns products with stock quantities at the specified location
+     * @param locationId - The location ID to get inventory for
+     */
+    inventory: async (locationId: number) => {
+      return this.request<{ location: Location; inventory: LocationInventoryItem[] }>('locations', 'inventory', 'GET', undefined, { id: locationId });
     },
   };
 

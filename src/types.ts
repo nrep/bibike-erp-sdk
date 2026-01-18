@@ -642,3 +642,15 @@ export interface Location {
   address?: string;
   is_active: boolean;
 }
+
+export interface LocationInventoryItem {
+  product_id: number;
+  product_name: string;
+  sku?: string;
+  barcode?: string;
+  category?: string;
+  unit_price: number;
+  quantity: number;
+  reserved_quantity?: number;
+  available_quantity?: number;
+}

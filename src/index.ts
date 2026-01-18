@@ -64,4 +64,5 @@ export type {
   Warehouse,
   Shop,
   Location,
+  LocationInventoryItem,
 } from './types';
