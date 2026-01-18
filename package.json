@@ -1,5 +1,5 @@
 {
-  "name": "bibike-erp-sdk",
+  "name": "@bibike/erp-sdk",
   "version": "1.0.0",
   "description": "TypeScript SDK for Bibike ERP API",
   "main": "dist/index.js",
@@ -41,11 +41,11 @@
   "license": "MIT",
   "homepage": "https://bibike.fivorana.com",
   "bugs": {
-    "url": "https://github.com/nrep/bibike-erp-sdk/issues"
+    "url": "https://github.com/bibike/erp-sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nrep/bibike-erp-sdk"
+    "url": "https://github.com/bibike/erp-sdk"
   },
   "publishConfig": {
     "access": "public"
