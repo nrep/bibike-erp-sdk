@@ -9,6 +9,8 @@ import type {
   DateRangeParams,
   LoginCredentials,
   AuthResponse,
+  LoginResponse,
+  TwoFactorVerifyInput,
   User,
   Product,
   CreateProductInput,
@@ -75,12 +77,63 @@ export class BibikeClient {
 
   // ============ Auth ============
 
-  async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>('auth', 'login', 'POST', credentials);
+  /**
+   * Login with email/username and password
+   * Returns LoginResponse which may indicate 2FA is required
+   */
+  async login(credentials: LoginCredentials): Promise<LoginResponse> {
+    const response = await this.request<AuthResponse>('auth', 'login', 'POST', {
+      login: credentials.login,
+      password: credentials.password,
+      two_factor_code: credentials.two_factor_code,
+    });
+    
+    // Check if 2FA is required
+    const rawResponse = response as unknown as LoginResponse;
+    if (rawResponse.requires_2fa) {
+      return {
+        success: false,
+        requires_2fa: true,
+        temp_token: rawResponse.temp_token,
+        methods: rawResponse.methods,
+      };
+    }
+    
     if (response.data?.token) {
       this.token = response.data.token;
     }
-    return response.data!;
+    
+    return {
+      success: true,
+      data: response.data,
+    };
+  }
+
+  /**
+   * Verify 2FA code after initial login
+   */
+  async verify2FA(input: TwoFactorVerifyInput): Promise<LoginResponse> {
+    const response = await this.request<AuthResponse>('auth', 'verify_2fa', 'POST', input);
+    
+    if (response.data?.token) {
+      this.token = response.data.token;
+    }
+    
+    return {
+      success: true,
+      data: response.data,
+    };
+  }
+
+  /**
+   * Request 2FA code via specific method (SMS/email)
+   */
+  async request2FACode(tempToken: string, method: 'sms' | 'email'): Promise<{ success: boolean; message?: string }> {
+    const response = await this.request<{ message: string }>('auth', 'request_2fa_code', 'POST', {
+      temp_token: tempToken,
+      method,
+    });
+    return { success: true, message: response.data?.message };
   }
 
   async logout(): Promise<void> {
@@ -95,6 +148,10 @@ export class BibikeClient {
 
   setToken(token: string): void {
     this.token = token;
+  }
+
+  getToken(): string | null {
+    return this.token;
   }
 
   // ============ Products ============

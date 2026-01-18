@@ -38,14 +38,40 @@ export interface DateRangeParams {
 // ============ Auth Types ============
 
 export interface LoginCredentials {
-  email: string;
+  /** Email or username */
+  login: string;
   password: string;
+  /** 2FA code if required */
+  two_factor_code?: string;
 }
 
 export interface AuthResponse {
   token: string;
   user: User;
   expires_at: string;
+}
+
+export interface TwoFactorRequiredResponse {
+  requires_2fa: true;
+  /** Temporary token to use when submitting 2FA code */
+  temp_token: string;
+  /** Available 2FA methods */
+  methods: ('totp' | 'sms' | 'email')[];
+}
+
+export interface LoginResponse {
+  success: boolean;
+  data?: AuthResponse;
+  requires_2fa?: boolean;
+  temp_token?: string;
+  methods?: ('totp' | 'sms' | 'email')[];
+  message?: string;
+}
+
+export interface TwoFactorVerifyInput {
+  temp_token: string;
+  code: string;
+  method?: 'totp' | 'sms' | 'email';
 }
 
 export interface User {
