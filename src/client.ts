@@ -83,6 +83,8 @@ export class BibikeClient {
    */
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
     const response = await this.request<AuthResponse>('auth', 'login', 'POST', {
+      // Send both for backwards compatibility with older API versions
+      username: credentials.login,
       login: credentials.login,
       password: credentials.password,
       two_factor_code: credentials.two_factor_code,
