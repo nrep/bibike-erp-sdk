@@ -226,6 +226,7 @@ export interface SaleItem {
 
 export interface CreateSaleInput {
   location_id?: number;
+  pos_session_id?: number;
   customer_id?: number;
   warehouse_id?: number;
   shop_id?: number;
