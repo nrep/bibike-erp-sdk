@@ -615,10 +615,15 @@ export class BibikeClient {
     /**
      * Get inventory for a specific location
      * Returns products with stock quantities at the specified location
+     * By default, excludes products with zero stock (ideal for POS)
      * @param locationId - The location ID to get inventory for
+     * @param options.includeZeroStock - Set to true to include products with zero quantity
      */
-    inventory: async (locationId: number) => {
-      return this.request<{ location: Location; inventory: LocationInventoryItem[] }>('locations', 'inventory', 'GET', undefined, { id: locationId });
+    inventory: async (locationId: number, options?: { includeZeroStock?: boolean }) => {
+      return this.request<{ location: Location; inventory: LocationInventoryItem[] }>('locations', 'inventory', 'GET', undefined, { 
+        id: locationId,
+        include_zero_stock: options?.includeZeroStock ? '1' : undefined,
+      });
     },
   };
 
