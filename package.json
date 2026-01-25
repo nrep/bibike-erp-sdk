@@ -22,8 +22,8 @@
     "README.md"
   ],
   "scripts": {
-    "generate": "openapi-generator-cli generate -i ../bibike-new/docs/openapi.yaml -g typescript-fetch -o src/generated --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=true,withInterfaces=true,npmName=@bibike/erp-sdk,npmVersion=2.0.0,apiSuffix= && node scripts/postprocess.js",
-    "generate:validate": "openapi-generator-cli validate -i ../bibike-new/docs/openapi.yaml",
+    "generate": "openapi-generator-cli generate -i ${OPENAPI_SPEC:-../bibike-new/docs/openapi.yaml} -g typescript-fetch -o src/generated --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=true,withInterfaces=true,npmName=@bibike/erp-sdk,npmVersion=2.0.0,apiSuffix= && node scripts/postprocess.js",
+    "generate:validate": "openapi-generator-cli validate -i ${OPENAPI_SPEC:-../bibike-new/docs/openapi.yaml}",
     "build": "npm run generate && tsup src/index.ts --format cjs,esm --dts",
     "build:only": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",

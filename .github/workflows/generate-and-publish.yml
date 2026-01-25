@@ -53,9 +53,13 @@ jobs:
       - name: Validate OpenAPI spec
         run: npm run generate:validate
         continue-on-error: true
+        env:
+          OPENAPI_SPEC: ./bibike-new/docs/openapi.yaml
 
       - name: Generate SDK from OpenAPI
         run: npm run generate
+        env:
+          OPENAPI_SPEC: ./bibike-new/docs/openapi.yaml
 
       - name: Build SDK
         run: npm run build:only
