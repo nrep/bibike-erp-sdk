@@ -1,69 +1,14 @@
 /**
  * Bibike ERP TypeScript SDK
- * @version 1.1.0
+ * 100% Auto-generated from OpenAPI specification
+ * @version 2.0.0
  */
 
-export { BibikeClient, BibikeApiError } from './client';
-export type { BibikeConfig } from './client';
+// Export all generated APIs
+export * from './generated/src/apis';
 
-export type {
-  ApiResponse,
-  PaginatedResponse,
-  PaginationParams,
-  DateRangeParams,
-  LoginCredentials,
-  AuthResponse,
-  LoginResponse,
-  TwoFactorRequiredResponse,
-  TwoFactorVerifyInput,
-  User,
-  Product,
-  ProductImage,
-  CreateProductInput,
-  UpdateProductInput,
-  InventoryItem,
-  StockTransfer,
-  StockTransferItem,
-  CreateTransferInput,
-  StockAdjustment,
-  CreateAdjustmentInput,
-  Sale,
-  SaleItem,
-  CreateSaleInput,
-  Quotation,
-  SalesOrder,
-  Customer,
-  CreateCustomerInput,
-  Supplier,
-  CreateSupplierInput,
-  PurchaseOrder,
-  PurchaseOrderItem,
-  CreatePurchaseOrderInput,
-  PurchaseRequisition,
-  Account,
-  JournalEntry,
-  JournalLine,
-  CreateJournalEntryInput,
-  TaxRate,
-  Employee,
-  Department,
-  Position,
-  Attendance,
-  LeaveRequest,
-  Lead,
-  Opportunity,
-  Activity,
-  Webhook,
-  WebhookDelivery,
-  CreateWebhookInput,
-  WebhookEvent,
-  POSSession,
-  SalesReport,
-  InventoryReport,
-  ProfitLossReport,
-  DashboardStats,
-  Warehouse,
-  Shop,
-  Location,
-  LocationInventoryItem,
-} from './types';
+// Export all generated models/types
+export * from './generated/src/models';
+
+// Export runtime utilities for configuration
+export * from './generated/src/runtime';

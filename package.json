@@ -1,7 +1,7 @@
 {
   "name": "@bibike/erp-sdk",
-  "version": "1.1.7",
-  "description": "TypeScript SDK for Bibike ERP API",
+  "version": "2.0.0",
+  "description": "TypeScript SDK for Bibike ERP API - Auto-generated from OpenAPI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
@@ -10,6 +10,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./generated": {
+      "types": "./dist/generated/index.d.ts",
+      "import": "./dist/generated/index.mjs",
+      "require": "./dist/generated/index.js"
     }
   },
   "files": [
@@ -17,13 +22,14 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "generate": "openapi-generator-cli generate -i ../bibike-new/docs/openapi.yaml -g typescript-fetch -o src/generated --additional-properties=supportsES6=true,typescriptThreePlus=true,useSingleRequestParameter=true,withInterfaces=true,npmName=@bibike/erp-sdk,npmVersion=2.0.0,apiSuffix= && node scripts/postprocess.js",
+    "generate:validate": "openapi-generator-cli validate -i ../bibike-new/docs/openapi.yaml",
+    "build": "npm run generate && tsup src/index.ts --format cjs,esm --dts",
+    "build:only": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "lint": "eslint src/",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:integration": "vitest run --config vitest.integration.config.ts",
-    "prepublishOnly": "npm run build && npm run test"
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf src/generated dist"
   },
   "keywords": [
     "bibike",
@@ -51,10 +57,10 @@
     "access": "public"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.0",
     "@types/node": "^20.10.0",
     "tsup": "^8.0.0",
-    "typescript": "^5.3.0",
-    "vitest": "^1.0.0"
+    "typescript": "^5.3.0"
   },
   "engines": {
     "node": ">=18.0.0"
